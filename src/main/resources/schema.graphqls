@@ -1,0 +1,25 @@
+type Query {
+    listerUtilisateurs: [Utilisateur]
+    recupererUtilisateur(id: String!): Utilisateur
+}
+
+type Mutation {
+    sauvegarderUtilisateur(utilisateur: UtilisateurInput!): Utilisateur
+    modifierUtilisateur(utilisateur: UtilisateurInput!): Utilisateur
+}
+
+type Utilisateur {
+    id: String
+    nom: String
+    prenom: String
+    email: String
+    motDePasse: String
+}
+
+input UtilisateurInput {
+    id: String
+    nom: String
+    prenom: String
+    email: String
+    motDePasse: String
+}
