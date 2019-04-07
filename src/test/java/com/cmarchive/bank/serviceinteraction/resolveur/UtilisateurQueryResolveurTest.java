@@ -1,7 +1,6 @@
-package com.cmarchive.bank.serviceinteraction.controleur;
+package com.cmarchive.bank.serviceinteraction.resolveur;
 
 import com.cmarchive.bank.serviceinteraction.modele.Utilisateur;
-import com.cmarchive.bank.serviceinteraction.modele.input.UtilisateurInput;
 import com.cmarchive.bank.serviceinteraction.service.UtilisateurService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -23,18 +22,15 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(UtilisateurControleur.class)
+@WebMvcTest(UtilisateurQueryResolveur.class)
 @AutoConfigureMockMvc(secure=false)
-public class UtilisateurControleurTest {
-
+public class UtilisateurQueryResolveurTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -87,61 +83,10 @@ public class UtilisateurControleurTest {
                 .andExpect(jsonPath("$.email", equalTo("cyril.marchive@gmail.com")));
     }
 
-    @Test
-    public void supprimerUtilisateur() throws Exception {
-        UtilisateurInput cyril = creerUtilisateurInput();
-        willDoNothing().given(utilisateurService).supprimerUtilisateur(cyril);
-
-        mockMvc.perform(delete("/utilisateurs")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cyril)))
-                .andExpect(status().isNoContent())
-                .andExpect(jsonPath("$").doesNotExist());
-    }
-
-    @Test
-    public void sauvegarderUtilisateur() throws Exception {
-        Utilisateur cyril = creerUtilisateur();
-        Utilisateur reponse = new Utilisateur()
-                .setId("1");
-        given(utilisateurService.sauvegarderUtilisateur(any(UtilisateurInput.class))).willReturn(reponse);
-
-        mockMvc.perform(post("/utilisateurs")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cyril)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", equalTo("1")));
-    }
-
-    @Test
-    public void modifierUtilisateur() throws Exception {
-        UtilisateurInput cyril = creerUtilisateurInput();
-        Utilisateur reponse = creerUtilisateur()
-                .setNom("Boussat");
-        given(utilisateurService.sauvegarderUtilisateur(any(UtilisateurInput.class))).willReturn(reponse);
-
-        mockMvc.perform(put("/utilisateurs")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(cyril)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nom", equalTo("Boussat")));
-    }
-
-    private UtilisateurInput creerUtilisateurInput() {
-        return new UtilisateurInput()
-                .setEmail("cyril.marchive@gmail.com")
-                .setNom("Marchive")
-                .setPrenom("Cyril");
-    }
-
     private Utilisateur creerUtilisateur() {
         return new Utilisateur()
                 .setEmail("cyril.marchive@gmail.com")
                 .setNom("Marchive")
                 .setPrenom("Cyril");
     }
-
 }
