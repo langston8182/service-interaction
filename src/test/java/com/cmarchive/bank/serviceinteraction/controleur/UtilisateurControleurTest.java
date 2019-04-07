@@ -1,6 +1,7 @@
 package com.cmarchive.bank.serviceinteraction.controleur;
 
 import com.cmarchive.bank.serviceinteraction.modele.Utilisateur;
+import com.cmarchive.bank.serviceinteraction.modele.input.UtilisateurInput;
 import com.cmarchive.bank.serviceinteraction.service.UtilisateurService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -88,7 +89,7 @@ public class UtilisateurControleurTest {
 
     @Test
     public void supprimerUtilisateur() throws Exception {
-        Utilisateur cyril = creerUtilisateur();
+        UtilisateurInput cyril = creerUtilisateurInput();
         willDoNothing().given(utilisateurService).supprimerUtilisateur(cyril);
 
         mockMvc.perform(delete("/utilisateurs")
@@ -104,7 +105,7 @@ public class UtilisateurControleurTest {
         Utilisateur cyril = creerUtilisateur();
         Utilisateur reponse = new Utilisateur()
                 .setId("1");
-        given(utilisateurService.sauvegarderUtilisateur(any(Utilisateur.class))).willReturn(reponse);
+        given(utilisateurService.sauvegarderUtilisateur(any(UtilisateurInput.class))).willReturn(reponse);
 
         mockMvc.perform(post("/utilisateurs")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -116,10 +117,10 @@ public class UtilisateurControleurTest {
 
     @Test
     public void modifierUtilisateur() throws Exception {
-        Utilisateur cyril = creerUtilisateur();
+        UtilisateurInput cyril = creerUtilisateurInput();
         Utilisateur reponse = creerUtilisateur()
                 .setNom("Boussat");
-        given(utilisateurService.sauvegarderUtilisateur(any(Utilisateur.class))).willReturn(reponse);
+        given(utilisateurService.sauvegarderUtilisateur(any(UtilisateurInput.class))).willReturn(reponse);
 
         mockMvc.perform(put("/utilisateurs")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -127,6 +128,13 @@ public class UtilisateurControleurTest {
                 .content(objectMapper.writeValueAsString(cyril)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nom", equalTo("Boussat")));
+    }
+
+    private UtilisateurInput creerUtilisateurInput() {
+        return new UtilisateurInput()
+                .setEmail("cyril.marchive@gmail.com")
+                .setNom("Marchive")
+                .setPrenom("Cyril");
     }
 
     private Utilisateur creerUtilisateur() {

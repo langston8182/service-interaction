@@ -7,14 +7,14 @@ import java.util.List;
  */
 public class Utilisateurs {
 
-    private List<Utilisateur> utilisateurs;
+    private List<Utilisateur> utilisateursDtos;
 
-    public Utilisateurs setUtilisateurs(List<Utilisateur> utilisateurs) {
-        this.utilisateurs = utilisateurs;
+    public Utilisateurs setUtilisateursDtos(List<Utilisateur> utilisateursDtos) {
+        this.utilisateursDtos = utilisateursDtos;
         return this;
     }
 
-    public List<Utilisateur> getUtilisateurs() {
-        return utilisateurs;
+    public List<Utilisateur> getUtilisateursDtos() {
+        return utilisateursDtos;
     }
 }

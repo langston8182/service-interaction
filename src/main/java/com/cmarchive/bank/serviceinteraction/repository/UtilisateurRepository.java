@@ -11,6 +11,7 @@ public interface UtilisateurRepository {
     Utilisateurs listerUtilisateurs();
     Utilisateur recupererUtilisateur(String id);
     Utilisateur sauvegarderUtilisateur(Utilisateur utilisateur);
+    Utilisateur modifierUtilisateur(Utilisateur utilisateur);
     void supprimerUtilisateur(Utilisateur utilisateur);
 
 }

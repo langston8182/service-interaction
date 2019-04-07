@@ -44,8 +44,8 @@ public class UtilisateurRepositoryImplTest {
         Utilisateurs resultat = utilisateurRepository.listerUtilisateurs();
 
         assertThat(resultat).isNotNull();
-        assertThat(resultat.getUtilisateurs()).isNotEmpty()
-                .isEqualTo(utilisateurs.getUtilisateurs());
+        assertThat(resultat.getUtilisateursDtos()).isNotEmpty()
+                .isEqualTo(utilisateurs.getUtilisateursDtos());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class UtilisateurRepositoryImplTest {
     private Utilisateurs creerUtilisateurs() {
         Utilisateur utilisateur = creerUtilisateur();
         return new Utilisateurs()
-                .setUtilisateurs(singletonList(utilisateur));
+                .setUtilisateursDtos(singletonList(utilisateur));
     }
 
     private Utilisateur creerUtilisateur() {

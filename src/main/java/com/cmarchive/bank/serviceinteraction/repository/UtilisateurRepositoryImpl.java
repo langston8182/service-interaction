@@ -42,6 +42,12 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     }
 
     @Override
+    public Utilisateur modifierUtilisateur(Utilisateur utilisateur) {
+        HttpEntity<Utilisateur> requete = new HttpEntity<>(utilisateur);
+        return restTemplate.postForObject(serviceUtilisateurUrl, requete, Utilisateur.class, creerHeaders());
+    }
+
+    @Override
     public void supprimerUtilisateur(Utilisateur utilisateur) {
         HttpEntity<Utilisateur> requete = new HttpEntity<>(utilisateur);
         restTemplate.delete(serviceUtilisateurUrl, requete, creerHeaders());
