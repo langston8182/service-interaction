@@ -1,10 +1,5 @@
 package com.cmarchive.bank.serviceinteraction.modele;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 /**
  * Utilisateur de l'application bank;
  */

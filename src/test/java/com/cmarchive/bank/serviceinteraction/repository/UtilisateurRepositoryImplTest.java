@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,7 +38,8 @@ public class UtilisateurRepositoryImplTest {
     @Test
     public void listerUtilisateurs() {
         Utilisateurs utilisateurs = creerUtilisateurs();
-        given(restTemplate.getForObject(eq(serviceUtilisateurUrl), eq(Utilisateurs.class))).willReturn(utilisateurs);
+        given(restTemplate.getForObject(eq(serviceUtilisateurUrl), eq(Utilisateurs.class), any(HttpHeaders.class)))
+                .willReturn(utilisateurs);
 
         Utilisateurs resultat = utilisateurRepository.listerUtilisateurs();
 
@@ -48,7 +51,8 @@ public class UtilisateurRepositoryImplTest {
     @Test
     public void recupererUtilisateur() {
         Utilisateur utilisateur = creerUtilisateur();
-        given(restTemplate.getForObject(eq(serviceUtilisateurUrl + "/1"), eq(Utilisateur.class))).willReturn(utilisateur);
+        given(restTemplate.getForObject(eq(serviceUtilisateurUrl + "/1"), eq(Utilisateur.class), any(HttpHeaders.class)))
+                .willReturn(utilisateur);
 
         Utilisateur resultat = utilisateurRepository.recupererUtilisateur("1");
 
@@ -62,7 +66,8 @@ public class UtilisateurRepositoryImplTest {
     public void sauvegarderUtilisateur() {
         Utilisateur utilisateur = creerUtilisateur();
         HttpEntity<Utilisateur> requete = new HttpEntity<>(utilisateur);
-        given(restTemplate.postForObject(eq(serviceUtilisateurUrl), eq(requete), eq(Utilisateur.class))).willReturn(utilisateur);
+        given(restTemplate.postForObject(eq(serviceUtilisateurUrl), eq(requete), eq(Utilisateur.class), any(HttpHeaders.class)))
+                .willReturn(utilisateur);
 
         Utilisateur resultat = utilisateurRepository.sauvegarderUtilisateur(utilisateur);
 
@@ -76,11 +81,11 @@ public class UtilisateurRepositoryImplTest {
     public void supprimerUtilisateur() {
         Utilisateur utilisateur = creerUtilisateur();
         HttpEntity<Utilisateur> requete = new HttpEntity<>(utilisateur);
-        willDoNothing().given(restTemplate).delete(serviceUtilisateurUrl, requete);
+        willDoNothing().given(restTemplate).delete(eq(serviceUtilisateurUrl), eq(requete), any(HttpHeaders.class));
 
         utilisateurRepository.supprimerUtilisateur(utilisateur);
 
-        then(restTemplate).should().delete(serviceUtilisateurUrl, requete);
+        then(restTemplate).should().delete(serviceUtilisateurUrl, requete, creerHeaders());
     }
 
     private Utilisateurs creerUtilisateurs() {
@@ -95,5 +100,12 @@ public class UtilisateurRepositoryImplTest {
                 .setEmail("cyril.marchive@gmail.com")
                 .setNom("Marchive")
                 .setPrenom("Cyril");
+    }
+
+    private HttpHeaders creerHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return httpHeaders;
     }
 }
