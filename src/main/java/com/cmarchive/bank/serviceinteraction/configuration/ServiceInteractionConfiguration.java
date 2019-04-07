@@ -38,7 +38,7 @@ public class ServiceInteractionConfiguration {
         details.setUserAuthorizationUri(userAuthorizationUri);
         details.setTokenName("oauth_token");
         details.setScope(Arrays.asList("user_info"));
-        details.setPreEstablishedRedirectUri("http://localhost:8200/login");
+        details.setPreEstablishedRedirectUri("http://localhost:8090/login");
         details.setUseCurrentUri(false);
 
         return details;

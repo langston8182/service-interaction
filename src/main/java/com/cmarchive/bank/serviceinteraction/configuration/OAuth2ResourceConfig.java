@@ -13,8 +13,6 @@ public class OAuth2ResourceConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/", "/login/**")
-                .permitAll()
                 .antMatchers("/utilisateurs/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated().and()
