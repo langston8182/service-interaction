@@ -1,0 +1,8 @@
+version: '3.1'
+
+services:
+  service-interaction:
+    image: langston8182/service-interaction:1.0.0-SNAPSHOT
+    container_name: service-interaction
+    ports:
+    - 8200:8200
