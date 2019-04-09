@@ -1,6 +1,8 @@
 spring:
   application:
     name: Service interaction
+  http:
+    log-request-details: true
 server:
   port: 8200
 security:
@@ -11,7 +13,20 @@ security:
       grantType: authorization_code
       clientId: client
       clientSecret: password
-      accessTokenUri: http://localhost:8090/auth/oauth/token
-      userAuthorizationUri: http://localhost:8090/auth/oauth/authorize
+      # 172.21.0.1 si le service tourne dans un container localhost sinon
+      accessTokenUri: http://172.21.0.1:8090/auth/oauth/token
+      userAuthorizationUri: http://172.21.0.1:8090/auth/oauth/authorize
+      preEstablishedRedirectUri: http://172.21.0.1:8090/login
     resource:
-      userInfoUri: http://localhost:8090/auth/user/me
+      userInfoUri: http://172.21.0.1:8090/auth/user/me
+
+url:
+  # 172.20.0.1 si le service tourne dans un container localhost sinon
+  service-utilisateur: http://172.20.0.1:8100/utilisateurs
+
+logging:
+#  file: /tmp/server.log
+  level:
+    org:
+      springframework:
+        web: DEBUG

@@ -3,18 +3,23 @@ package com.cmarchive.bank.serviceinteraction.repository;
 import com.cmarchive.bank.serviceinteraction.modele.Utilisateur;
 import com.cmarchive.bank.serviceinteraction.modele.Utilisateurs;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
+
 import static java.util.Collections.singletonList;
 
 @Repository
 public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
-    private final String serviceUtilisateurUrl = "http://localhost:8100/utilisateurs";
+    @Value("${url.service-utilisateur}")
+    private String serviceUtilisateurUrl;
 
     private RestTemplate restTemplate;
 

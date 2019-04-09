@@ -28,6 +28,9 @@ public class ServiceInteractionConfiguration {
     @Value("${security.oauth2.client.clientSecret}")
     private String clientSecret;
 
+    @Value("${security.oauth2.client.preEstablishedRedirectUri}")
+    private String preEstablishedRedirectUri;
+
     @Bean
     public OAuth2ProtectedResourceDetails resource() {
         AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
@@ -38,8 +41,8 @@ public class ServiceInteractionConfiguration {
         details.setUserAuthorizationUri(userAuthorizationUri);
         details.setTokenName("oauth_token");
         details.setScope(Arrays.asList("user_info"));
-        details.setPreEstablishedRedirectUri("http://localhost:8090/login");
-        details.setUseCurrentUri(false);
+        details.setPreEstablishedRedirectUri(preEstablishedRedirectUri);
+        details.setUseCurrentUri(true);
 
         return details;
     }
