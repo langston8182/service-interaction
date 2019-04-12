@@ -13,7 +13,7 @@ security:
       grantType: authorization_code
       clientId: client
       clientSecret: password
-      # 172.21.0.1 si le service tourne dans un container localhost sinon
+      # 172.21.0.1:8090 ou minikube ip(192.168.99.100:30090) si le service tourne dans un container ou k8s, localhost sinon
       accessTokenUri: http://172.21.0.1:8090/auth/oauth/token
       userAuthorizationUri: http://172.21.0.1:8090/auth/oauth/authorize
       preEstablishedRedirectUri: http://172.21.0.1:8090/login
@@ -21,7 +21,7 @@ security:
       userInfoUri: http://172.21.0.1:8090/auth/user/me
 
 url:
-  # 172.20.0.1 si le service tourne dans un container localhost sinon
+  # 172.20.0.1:8100 ou minikube ip(192.168.99.100:8100) si le service tourne dans un container ou k8s, localhost sinon
   service-utilisateur: http://172.20.0.1:8100/utilisateurs
 
 logging:
