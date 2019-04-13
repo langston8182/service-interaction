@@ -67,6 +67,19 @@ Ip service utilisateur dans un container : 172.20.0.1
 Ip serveur autorisation dans k8s : 192.168.99.100 (minikube ip)
 Ip service utilisateur dans k8s : utilisateur-service
 
+## Spring cloud Kubernetes
+
+Les configuration decrites precedemment peuvent etre surchargee a chaud dans le fichier configMap de la configuration k8s.
+\
+Le nom de l'application définié dans la fichier _application.yaml_ doit etre le meme que le nom de la configMap dans k8s
+
+Pour changer un parametre, modifier le fichier interaction-cm.yaml puis recharger le fichier configMap et le fichier de deploiement interaction
+```
+kubectl replace -f cm interaction
+kubectl delete deployment interaction-deployment
+kubectl create -f interaction-deployment.yaml
+```
+
 # Contributeur
 
 Cyril Marchive (cyril.marchive@gmail.com)
