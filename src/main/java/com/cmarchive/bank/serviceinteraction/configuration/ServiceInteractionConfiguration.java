@@ -16,32 +16,23 @@ import java.util.Arrays;
 @EnableOAuth2Client
 public class ServiceInteractionConfiguration {
 
-    @Value("${security.oauth2.client.accessTokenUri}")
-    private String accessTokenUri;
+    private ConfigMap configMap;
 
-    @Value("${security.oauth2.client.userAuthorizationUri}")
-    private String userAuthorizationUri;
-
-    @Value("${security.oauth2.client.clientId}")
-    private String clientId;
-
-    @Value("${security.oauth2.client.clientSecret}")
-    private String clientSecret;
-
-    @Value("${security.oauth2.client.preEstablishedRedirectUri}")
-    private String preEstablishedRedirectUri;
+    public ServiceInteractionConfiguration(ConfigMap configMap) {
+        this.configMap = configMap;
+    }
 
     @Bean
     public OAuth2ProtectedResourceDetails resource() {
         AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
         details.setId("Authorization");
-        details.setClientId(clientId);
-        details.setClientSecret(clientSecret);
-        details.setAccessTokenUri(accessTokenUri);
-        details.setUserAuthorizationUri(userAuthorizationUri);
+        details.setClientId(configMap.getClientId());
+        details.setClientSecret(configMap.getClientSecret());
+        details.setAccessTokenUri(configMap.getAccessTokenUri());
+        details.setUserAuthorizationUri(configMap.getUserAuthorizationUri());
         details.setTokenName("oauth_token");
         details.setScope(Arrays.asList("user_info"));
-        details.setPreEstablishedRedirectUri(preEstablishedRedirectUri);
+        details.setPreEstablishedRedirectUri(configMap.getPreEstablishedRedirectUri());
         details.setUseCurrentUri(true);
 
         return details;

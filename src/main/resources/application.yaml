@@ -1,6 +1,10 @@
+management:
+  endpoint:
+    restart:
+      enabled: true
 spring:
   application:
-    name: Service interaction
+    name: interaction
   http:
     log-request-details: true
 server:
@@ -14,15 +18,15 @@ security:
       clientId: client
       clientSecret: password
       # 172.21.0.1:8090 ou minikube ip(192.168.99.100:30090) si le service tourne dans un container ou k8s, localhost sinon
-      accessTokenUri: http://172.21.0.1:8090/auth/oauth/token
-      userAuthorizationUri: http://172.21.0.1:8090/auth/oauth/authorize
-      preEstablishedRedirectUri: http://172.21.0.1:8090/login
+      accessTokenUri: http://192.168.99.100:30090/auth/oauth/token
+      userAuthorizationUri: http://192.168.99.100:30090/auth/oauth/authorize
+      preEstablishedRedirectUri: http://192.168.99.100:30090/login
     resource:
-      userInfoUri: http://172.21.0.1:8090/auth/user/me
+      userInfoUri: http://192.168.99.100:30090/auth/user/me
 
 url:
-  # 172.20.0.1:8100 ou minikube ip(192.168.99.100:8100) si le service tourne dans un container ou k8s, localhost sinon
-  service-utilisateur: http://172.20.0.1:8100/utilisateurs
+  # 172.20.0.1:8100 ou minikube ip(utilisateur-service:8100) si le service tourne dans un container ou k8s, localhost sinon
+  service-utilisateur: http://utilisateur-service:8100/utilisateurs
 
 logging:
 #  file: /tmp/server.log
